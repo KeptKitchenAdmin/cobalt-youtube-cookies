@@ -18,5 +18,5 @@ USER 1000
 # Set working directory
 WORKDIR /app
 
-# Use startup script as entrypoint
-ENTRYPOINT ["./startup.sh"]
+# Use startup script as entrypoint with full path
+ENTRYPOINT ["/app/startup.sh"]
