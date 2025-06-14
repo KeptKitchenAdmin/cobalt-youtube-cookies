@@ -10,19 +10,18 @@ Custom Docker image for Cobalt that supports YouTube authentication via environm
 ## Environment Variables
 
 ### Required
-- `YOUTUBE_COOKIE_STRING`: Your YouTube cookies formatted as a single string
+- `YOUTUBE_COOKIES_JSON`: Your YouTube cookies formatted as JSON string
 
 ### Optional  
-- `COOKIE_PATH`: Path to cookies file (default: `/cookies.json`)
+- `COOKIE_PATH`: Path to cookies file (default: `/app/cookies.json`)
+- `API_URL`: Your Cobalt instance URL
 - `PORT`: Port to run on (default: `9000`)
-- `YOUTUBE_SESSION_SERVER`: YouTube session server URL
-- `YOUTUBE_SESSION_INNERTUBE_CLIENT`: InnerTube client type
 
 ## Cookie Format
 
-The `YOUTUBE_COOKIE_STRING` should be formatted like:
-```
-LOGIN_INFO=value; HSID=value; SSID=value; SID=value; APISID=value; SAPISID=value; PREF=value; VISITOR_INFO1_LIVE=value
+The `YOUTUBE_COOKIES_JSON` should be formatted as JSON:
+```json
+{"youtube": ["LOGIN_INFO=value; HSID=value; SSID=value; SID=value; APISID=value; SAPISID=value"]}
 ```
 
 ## Usage
@@ -30,7 +29,7 @@ LOGIN_INFO=value; HSID=value; SSID=value; SID=value; APISID=value; SAPISID=value
 ### Docker Run
 ```bash
 docker run -p 9000:9000 \
-  -e YOUTUBE_COOKIE_STRING="your-cookie-string-here" \
+  -e YOUTUBE_COOKIES_JSON='{"youtube": ["your-cookie-string-here"]}' \
   your-registry/cobalt-youtube-cookies:latest
 ```
 
@@ -43,15 +42,16 @@ services:
     ports:
       - "9000:9000"
     environment:
-      - YOUTUBE_COOKIE_STRING=your-cookie-string-here
-      - COOKIE_PATH=/cookies.json
+      - YOUTUBE_COOKIES_JSON={"youtube": ["your-cookie-string-here"]}
+      - COOKIE_PATH=/app/cookies.json
 ```
 
 ### Render Deployment
 
 1. Connect this repository to Render
 2. Set up environment variables:
-   - `YOUTUBE_COOKIE_STRING`: Your cookie string
+   - `YOUTUBE_COOKIES_JSON`: Your cookie JSON string
+   - `API_URL`: Your Render app URL
 3. Deploy!
 
 ## Testing
@@ -68,6 +68,6 @@ Should return `"status": "tunnel"` with working proxy URL.
 ## Troubleshooting
 
 Check logs for:
-- `✅ Cookies file created at /cookies.json` - confirms cookies are loaded
-- `⚠️ No YOUTUBE_COOKIE_STRING provided` - missing environment variable
+- `✅ Cookies written successfully` - confirms cookies are loaded
+- `⚠️ No YOUTUBE_COOKIES_JSON environment variable found` - missing environment variable
 - YouTube authentication errors - cookies may have expired
