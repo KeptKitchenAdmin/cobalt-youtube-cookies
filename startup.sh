@@ -7,7 +7,7 @@ if [ ! -z "$YOUTUBE_COOKIE_STRING" ]; then
     echo "🍪 Creating cookies.json from environment variable..."
     
     # Create the cookies.json file with proper format
-    cat > /cookies.json << EOF
+    cat > /app/cookies.json << EOF
 {
     "youtube": [
         "$YOUTUBE_COOKIE_STRING"
@@ -15,7 +15,7 @@ if [ ! -z "$YOUTUBE_COOKIE_STRING" ]; then
 }
 EOF
     
-    echo "✅ Cookies file created at /cookies.json"
+    echo "✅ Cookies file created at /app/cookies.json"
     echo "📍 Cookie path set to: $COOKIE_PATH"
 else
     echo "⚠️  No YOUTUBE_COOKIE_STRING provided - YouTube authentication may fail"
