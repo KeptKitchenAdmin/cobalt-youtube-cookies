@@ -15,7 +15,7 @@ RUN echo '#!/bin/sh' > /start.sh && \
     echo 'if [ ! -z "$YOUTUBE_COOKIES_JSON" ]; then' >> /start.sh && \
     echo '  echo "🍪 Writing YouTube cookies to /app/cookies.json..."' >> /start.sh && \
     echo '  echo "DEBUG: Writing cookies file..."' >> /start.sh && \
-    echo '  echo "$YOUTUBE_COOKIES_JSON" > /app/cookies.json' >> /start.sh && \
+    echo '  printf "%s" "$YOUTUBE_COOKIES_JSON" > /app/cookies.json' >> /start.sh && \
     echo '  echo "DEBUG: Cookies file created, contents:"' >> /start.sh && \
     echo '  cat /app/cookies.json' >> /start.sh && \
     echo '  echo "DEBUG: File size and permissions:"' >> /start.sh && \
