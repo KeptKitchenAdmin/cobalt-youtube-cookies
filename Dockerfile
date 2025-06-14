@@ -3,8 +3,9 @@ FROM ghcr.io/imputnet/cobalt:latest
 # Switch to root to add startup script
 USER root
 
-# Copy startup script with execute permissions
-COPY --chmod=755 startup.sh /app/startup.sh
+# Copy startup script to root and make executable
+COPY startup.sh /startup.sh
+RUN chmod +x /startup.sh
 
 # Create placeholder cookies.json (will be overwritten by startup script)
 RUN echo '{"youtube": [""]}' > /app/cookies.json
@@ -18,5 +19,5 @@ USER 1000
 # Set working directory
 WORKDIR /app
 
-# Use startup script as entrypoint with full path
-ENTRYPOINT ["/app/startup.sh"]
+# Use startup script as entrypoint
+ENTRYPOINT ["/startup.sh"]
