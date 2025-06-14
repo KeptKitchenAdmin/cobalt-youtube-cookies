@@ -1,34 +1,17 @@
 #!/bin/bash
 
-echo "🚀 Starting Cobalt with YouTube Cookie Support"
+echo "🚀 Starting Cobalt with YouTube Cookies"
 
-# Create cookies.json from environment variable if provided
-if [ ! -z "$YOUTUBE_COOKIE_STRING" ]; then
-    echo "🍪 Creating cookies.json from environment variable..."
-    
-    # Create the cookies.json file with proper format  
-    cat > /cookies.json << EOF
-{
-    "youtube": [
-        "$YOUTUBE_COOKIE_STRING"
-    ]
-}
-EOF
-    
-    echo "✅ Cookies file created at /cookies.json"
-    echo "📍 Cookie path set to: $COOKIE_PATH"
+# Write cookies from environment variable to file
+if [ ! -z "$YOUTUBE_COOKIES_JSON" ]; then
+    echo "🍪 Writing YouTube cookies to /app/cookies.json..."
+    echo "$YOUTUBE_COOKIES_JSON" > /app/cookies.json
+    echo "✅ Cookies written successfully"
 else
-    echo "⚠️  No YOUTUBE_COOKIE_STRING provided - YouTube authentication may fail"
+    echo "⚠️  No YOUTUBE_COOKIES_JSON environment variable found"
 fi
-
-# Show environment info
-echo "🔧 Environment Configuration:"
-echo "   - COOKIE_PATH: $COOKIE_PATH"
-echo "   - PORT: $PORT"
-echo "   - YouTube Session Server: $YOUTUBE_SESSION_SERVER"
-echo "   - YouTube Client: $YOUTUBE_SESSION_INNERTUBE_CLIENT"
 
 echo "🎬 Starting Cobalt API server..."
 
-# Start the original cobalt application
+# Start cobalt normally  
 exec node src/cobalt
