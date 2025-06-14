@@ -6,8 +6,8 @@ echo "🚀 Starting Cobalt with YouTube Cookie Support"
 if [ ! -z "$YOUTUBE_COOKIE_STRING" ]; then
     echo "🍪 Creating cookies.json from environment variable..."
     
-    # Create the cookies.json file with proper format
-    cat > /app/cookies.json << EOF
+    # Create the cookies.json file with proper format  
+    cat > /cookies.json << EOF
 {
     "youtube": [
         "$YOUTUBE_COOKIE_STRING"
@@ -15,7 +15,7 @@ if [ ! -z "$YOUTUBE_COOKIE_STRING" ]; then
 }
 EOF
     
-    echo "✅ Cookies file created at /app/cookies.json"
+    echo "✅ Cookies file created at /cookies.json"
     echo "📍 Cookie path set to: $COOKIE_PATH"
 else
     echo "⚠️  No YOUTUBE_COOKIE_STRING provided - YouTube authentication may fail"
@@ -31,4 +31,4 @@ echo "   - YouTube Client: $YOUTUBE_SESSION_INNERTUBE_CLIENT"
 echo "🎬 Starting Cobalt API server..."
 
 # Start the original cobalt application
-exec npm start
+exec node src/cobalt
