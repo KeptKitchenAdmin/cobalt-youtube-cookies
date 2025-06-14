@@ -1,23 +1,21 @@
 FROM ghcr.io/imputnet/cobalt:latest
 
-# Switch to root to add startup script
+# Stay as root for the entire process since USER 1000 can't access root files
 USER root
 
-# Copy startup script to root and make executable
-COPY startup.sh /startup.sh
-RUN chmod +x /startup.sh
+# Copy startup script and make executable
+COPY startup.sh /usr/local/bin/startup.sh
+RUN chmod +x /usr/local/bin/startup.sh
 
-# Create placeholder cookies.json (will be overwritten by startup script)
+# Create placeholder cookies.json in the working directory
 RUN echo '{"youtube": [""]}' > /app/cookies.json
+RUN chown 1000:1000 /app/cookies.json
 
-# Environment variables (API_URL should be set in Render dashboard)  
+# Environment variables
 ENV COOKIE_PATH=/app/cookies.json
-
-# Switch back to original user
-USER 1000
 
 # Set working directory
 WORKDIR /app
 
-# Use startup script as entrypoint
-ENTRYPOINT ["/startup.sh"]
+# Use startup script as entrypoint with full path
+ENTRYPOINT ["/usr/local/bin/startup.sh"]
